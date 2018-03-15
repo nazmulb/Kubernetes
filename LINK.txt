@@ -1,0 +1,2 @@
+https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/
+https://medium.com/@abhaydiwan/kubernetes-introduction-and-twelve-key-features-cdfe8a1f2d21
