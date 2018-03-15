@@ -2,7 +2,7 @@
 
 ### What is Kubernetes?
 
-Kubernetes (K8s) is an open-source system for automating deployment, scaling, and management of containerized applications. Kubernetes is a Greek word which means `helmsman` or the pilot of a ship. K8s is an abbreviation derived by replacing the 8 letters “ubernete” with “8”.
+Kubernetes (K8s) is an open-source system for automating deployment, scaling, and management of containerized applications. Kubernetes is a Greek word which means `helmsman` or the pilot of a ship. K8s is an abbreviation derived by replacing the 8 letters "ubernete" with "8".
 
 It is an open source project that was started by Google and derived from Borg, which is used inside Google for several years now for container management. Currently, it is hosted by Cloud Native Computing Foundation (CNCF).
 
