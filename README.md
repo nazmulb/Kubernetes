@@ -8,6 +8,16 @@ It is an open source project that was started by Google and derived from Borg, w
 
 Kubernetes is an abstraction that optimizes the utilization of resources like CPU and memory through containers, which allow for efficient distributions of applications across a cluster of nodes. K8s can run anywhere on bare metal or in any cloud provider infrastructure.
 
+### What are the features of Kubernetes?
+
+- Container grouping using pod
+- Self-healing
+- Auto-scalablility 
+- DNS management
+- Load balancing
+- Rolling update or rollback
+- Resource monitoring and logging
+
 ### Kubernetes Architecture:
 
 A Kubernetes cluster is made of a master node and a set of worker/slave nodes. A K8s setup consists of several parts, some of them optional, some mandatory for the whole system to function.
