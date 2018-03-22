@@ -14,7 +14,7 @@ A Kubernetes cluster is made of a master node and a set of worker/slave nodes. A
 
 This is a high-level diagram of the architecture:
 
-<img alt="Kubernetes Architecture" src="https://raw.githubusercontent.com/nazmulb/Kubernetes/master/images/kubernetes-architecture.webp" width="650px" />
+<img alt="Kubernetes Architecture" src="https://raw.githubusercontent.com/nazmulb/Kubernetes/master/images/kubernetes-architecture.webp" width="750px" />
 
 Let’s have a look into each of the component’s responsibilities:
 
