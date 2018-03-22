@@ -1,2 +1,4 @@
 https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/
+https://kubernetes.io/docs/tutorials/kubernetes-basics/
 https://medium.com/@abhaydiwan/kubernetes-introduction-and-twelve-key-features-cdfe8a1f2d21
+https://x-team.com/blog/introduction-kubernetes-architecture/
