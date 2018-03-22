@@ -31,3 +31,28 @@ All configuration information about cluster states is stored in the etcd in the 
 
 ##### scheduler:
 It works with the API server to schedule workloads in the form of pods on the actual worker nodes. These pods include the various containers that make up our application stacks. By default, the basic Kubernetes scheduler spreads pods across the cluster and uses different nodes for matching pod replicas.
+
+##### controller-manager:
+Optionally you can run different kinds of controllers inside the master node. An example of such a controller is the Replication controller, which works with the API server to ensure that the correct number of pod replicas are running at any given time. This is exemplary of the desired state concept. If our replication controller is defining three replicas and our actual state is two copies of the pod running, then the scheduler will be invoked to add a third pod somewhere on our cluster. In this way, K8s is always pushing towards that desired state.
+
+##### kubectl:
+A command line tool to communicate with the API service and send commands to the master node.
+
+#### Worker node:
+The pods are run here, so the worker node contains all the necessary services to manage the networking between the containers, communicate with the master node, and assign resources to the containers scheduled.
+
+##### Pods:
+Pods allow you to keep related containers close in terms of the network and hardware infrastructure. Data can live near the application, so processing can be done without incurring a high latency from network traversal. Similarly, common data can be stored on volumes that are shared between a number of containers. 
+Pods essentially allow you to logically group containers and pieces of our application stacks together.
+
+While pods may run one or more containers inside, the pod itself may be one of many that is running on a Kubernetes worker node. Pods give us a logical group of containers that we can then replicate, schedule, and balance service endpoints across.
+
+##### Docker:
+Docker runs on each of the worker nodes, and runs the configured pods. It takes care of downloading the images and starting the containers.
+
+##### kubelet:
+kubelet gets the configuration of a pod from the API server and ensures that the described containers are up and running. This is the worker service that’s responsible for communicating with the master node.
+It also communicates with etcd, to get information about services and write the details about newly created ones.
+
+##### kube-proxy:
+kube-proxy runs in each node for load distribution among the pods and makes services available to the external host. It uses iptable rules or round robin to forward requests to the correct containers.
