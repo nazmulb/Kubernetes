@@ -113,7 +113,7 @@ brew install kubernetes-cli
 
 AWS IAM enables you to manage access to AWS services and resources securely. In order to build clusters within AWS we'll create a dedicated IAM user for `kops`. This user requires API credentials in order to use `kops`. You can create the kops IAM user from the command line using the following:
 
-```js
+```
 aws iam create-group --group-name kops
 
 aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonEC2FullAccess --group-name kops
@@ -131,7 +131,7 @@ aws iam create-access-key --user-name kops
 
 You should record the SecretAccessKey and AccessKeyID in the returned JSON output, and then use them below:
 
-```js
+```
 # configure the aws client to use your new IAM user
 aws configure           # Use your new access and secret key here
 ```
