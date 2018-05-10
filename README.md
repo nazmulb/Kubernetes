@@ -4,7 +4,7 @@
 
 Kubernetes (K8s) is an open-source system for automating deployment, scaling, and management of containerized applications. Kubernetes is a Greek word which means `helmsman` or the pilot of a ship. K8s is an abbreviation derived by replacing the 8 letters "ubernete" with "8".
 
-It is an open source project that was started by Google and derived from Borg, which is used inside Google for several years now for container management. Currently, it is hosted by Cloud Native Computing Foundation (CNCF).
+It is an open source project that was started by Google and derived from Borg, which is used inside Google for several years now for container management. Currently, it is hosted by Cloud Native Computing Foundation (CNCF).
 
 Kubernetes is an abstraction that optimizes the utilization of resources like CPU and memory through containers, which allow for efficient distributions of applications across a cluster of nodes. K8s can run anywhere on bare metal or in any cloud provider infrastructure.
 
@@ -66,3 +66,45 @@ It also communicates with etcd, to get information about services and write the 
 
 ##### kube-proxy:
 kube-proxy runs in each node for load distribution among the pods and makes services available to the external host. It uses iptable rules or round robin to forward requests to the correct containers.
+
+### K8s installation and our first cluster:
+
+Kubernetes is supported on a variety of platforms. Here we will use Amazon Web Services (AWS) and <a href="https://github.com/kubernetes/kops">kops</a> (Kubernetes Operations) which provides the easiest way to get a production grade Kubernetes cluster up and running.
+
+#### Step 1: Create AWS account:
+
+You need an AWS account. Visit <a href="http://aws.amazon.com">http://aws.amazon.com</a> to get started.
+
+#### Step 2: Install AWS CLI (Command Line Interface):
+
+If you install `python 3`, `pip` will be installed automatically in macOS.
+
+```js
+brew install python3
+pip install awscli --upgrade --user
+```
+
+After you install the AWS CLI, you may need to add the path to the executable file to your PATH variable. 
+
+```js
+vim ~/.zshrc
+```
+
+Add the line `export PATH=~/.local/bin:$PATH` in `.zshrc` and source the file.
+
+```js
+source ~/.zshrc
+aws --version
+```
+
+#### Step 3: Install `kops` (Kubernetes Operations):
+
+```js
+brew update && brew install kops
+```
+
+#### Step 4: Install `kubectl` (CLI tool to manage and operate Kubernetes clusters):
+
+```js
+brew install kubernetes-cli
+```
