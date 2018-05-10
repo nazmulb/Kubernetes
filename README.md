@@ -108,3 +108,61 @@ brew update && brew install kops
 ```js
 brew install kubernetes-cli
 ```
+
+#### Step 4: Setup AWS IAM (Identity and Access Management) user:
+
+AWS IAM enables you to manage access to AWS services and resources securely. In order to build clusters within AWS we'll create a dedicated IAM user for `kops`. This user requires API credentials in order to use `kops`. You can create the kops IAM user from the command line using the following:
+
+```js
+aws iam create-group --group-name kops
+
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonEC2FullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonRoute53FullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/IAMFullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonVPCFullAccess --group-name kops
+
+aws iam create-user --user-name kops
+
+aws iam add-user-to-group --user-name kops --group-name kops
+
+aws iam create-access-key --user-name kops
+```
+
+You should record the SecretAccessKey and AccessKeyID in the returned JSON output, and then use them below:
+
+```js
+# configure the aws client to use your new IAM user
+aws configure           # Use your new access and secret key here
+```
+
+```js
+vim ~/.zshrc
+```
+
+Add the following two lines in `.zshrc` and source the file because "aws configure" does not export these vars for kops to use, we export them now:
+
+```js
+export AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id)
+export AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key)
+```
+
+```js
+source ~/.zshrc
+aws --version
+```
+
+You can see a list of all your IAM users here:
+
+```js
+aws iam list-users
+```
+
+You can also check the config as well:
+
+```js
+cat ~/.aws/credentials
+cat ~/.aws/config
+```
+
+Please use <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html">this doc</a> if you have any problem to configure.
