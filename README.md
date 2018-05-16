@@ -173,9 +173,11 @@ If you bought a domain (e.g. `rajughosh.me`) from elsewhere then you have to cre
 
 <img alt="DNS Management" src="https://raw.githubusercontent.com/nazmulb/Kubernetes/master/images/dns-management.png" width="750px" />
 
+Now you will get 4 NS (Name Servers) record for your domain (`rajughosh.me`).
+
 <img alt="NS record" src="https://raw.githubusercontent.com/nazmulb/Kubernetes/master/images/ns-record.png" width="632px" />
 
-Now you will get 4 NS (Name Servers) record for your domain (`rajughosh.me`), Please copy this NS record and set it to your domain.
+Please copy this NS record and set it to your domain.
 
 #### Step 6: Testing your DNS setup:
 
