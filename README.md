@@ -166,3 +166,36 @@ cat ~/.aws/config
 ```
 
 Please use <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html">this doc</a> if you have any problem to configure.
+
+#### Step 5: Configure DNS:
+
+If you bought a domain (e.g. `rajughosh.me`) from elsewhere then you have to create a hosted zone in Route53. Please login to your AWS account from browser and go to "Route53". Please click on "DNS Management" and then click on "Create Hosted Zone". Please fill the form like below and click on "Create" button.
+
+<img alt="DNS Management" src="https://raw.githubusercontent.com/nazmulb/Kubernetes/master/images/dns-management.png" width="750px" />
+
+<img alt="NS record" src="https://raw.githubusercontent.com/nazmulb/Kubernetes/master/images/ns-record.png" width="632px" />
+
+Now you will get 4 NS (Name Servers) record for your domain (`rajughosh.me`), Please copy this NS record and set it to your domain.
+
+#### Step 6: Testing your DNS setup:
+
+You should now able to dig your domain and see the AWS Name Servers on the other end.
+
+```
+dig ns rajughosh.me
+```
+
+Should return something similar to:
+
+```
+;; ANSWER SECTION:
+rajughosh.me.           21599   IN      NS      ns-1429.awsdns-50.org.
+rajughosh.me.           21599   IN      NS      ns-1873.awsdns-42.co.uk.
+rajughosh.me.           21599   IN      NS      ns-358.awsdns-44.com.
+rajughosh.me.           21599   IN      NS      ns-639.awsdns-15.net.
+```
+
+This is a critical component of setting up clusters. If you are experiencing problems with the Kubernetes API not coming up, chances are something is wrong with the cluster's DNS.
+
+**Please DO NOT MOVE ON until you have validated your NS records!**
+
