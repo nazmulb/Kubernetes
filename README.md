@@ -302,9 +302,147 @@ You can look at all the system components with the following command.
 kubectl -n kube-system get po
 ```
 
+### Run a Stateless Application Using a Deployment:
+
+#### Objectives:
+
+- Create an nginx deployment.
+- Use kubectl to list information about the deployment.
+- Update the deployment.
+
+#### Creating and exploring an nginx deployment:
+
+You can run an application by creating a Kubernetes Deployment object, and you can describe a Deployment in a YAML file. 
+
+##### Step 1: Create a Deployment file:
+
+```
+mkdir learning
+cd learning
+touch deployment.yaml
+```
+
+Please open the file for editing and paste the following contents and save:
+
+```yaml
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      # unlike pod-nginx.yaml, the name is not included in the meta data as a unique name is
+      # generated from the deployment name
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+```
+
+##### Step 2: Apply the deployment YAML file:
+
+```
+kubectl apply -f deployment.yaml
+```
+
+##### Step 3: Display information about the Deployment:
+
+```
+kubectl describe deployment nginx-deployment
+```
+
+##### Step 4: List the pods created by the deployment:
+
+```
+kubectl get pods -l app=nginx
+```
+
+##### Step 4: Display information about pod:
+
+```
+kubectl describe pod
+```
+
+where `<pod-name>` is the name of one of your pods.
+
+#### Updating the deployment:
+
+Suppose we want to decrease the number of pods in your Deployment. 
+
+##### Step 1: Open the deployment file for editing:
+
+```
+KUBE_EDITOR="vim" kubectl edit deployment nginx-deployment
+```
+
+Please update the replicas from `2` to `1` like below and save:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 1 # Update the replicas from 2 to 1
+  template: 
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+```
+
+When you save it then it will automatically apply the changes.
+
+##### Step 2: List the pods created by the deployment:
+
+```
+kubectl get pods -l app=nginx
+```
+
+#### Use Port Forwarding to Access Applications in a Cluster:
+
+```
+kubectl port-forward nginx-deployment-6c54bd5869-wvz8r 8080:80
+```
+
+```
+curl localhost:8080
+```
+
+If you want to update the nginx `index.html` file then open the container in interactive mode:
+
+```
+kubectl exec -it nginx-deployment-6c54bd5869-wvz8r bash
+```
+
 ### Delete the Cluster:
 
-Running a Kubernetes cluster within AWS obviously costs money, and so you may want to delete your cluster if you are finished running experiments. Note that this command is very destructive, and will delete your cluster and everything contained within it!
+Running a Kubernetes cluster within AWS obviously costs money, and so you may want to delete your cluster if you are finished running experiments. 
+
+You can preview all of the AWS resources that will be destroyed when the cluster is deleted by issuing the following command.
+
+```
+kops delete cluster --name ${NAME}
+```
+
+When you are sure you want to delete your cluster, issue the delete command with the `--yes` flag. Note that this command is very destructive, and will delete your cluster and everything contained within it!
 
 ```
 kops delete cluster --name ${NAME} --yes

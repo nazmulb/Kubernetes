@@ -54,9 +54,6 @@ kops validate cluster
 
 kubectl -n kube-system get po
 
-https://github.com/kubernetes/kops/blob/master/docs/aws.md
-
-
 Pod create: https://kubernetes.io/docs/tasks/run-application/run-stateless-application-deployment/
 
 // create a nignx deployment yaml file
@@ -104,7 +101,7 @@ kubectl port-forward nginx-deployment-6c54bd5869-wvz8r 8080:80
 // edit deployment
 KUBE_EDITOR="vim" kubectl edit deployment nginx-deployment
 
-// 
+// get pod info
 kubectl get pod
 
 // get inside container
