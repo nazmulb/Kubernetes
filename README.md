@@ -79,33 +79,33 @@ You need an AWS account. Visit <a href="http://aws.amazon.com">http://aws.amazon
 
 If you install `python 3`, `pip` will be installed automatically in macOS.
 
-```js
+```
 brew install python3
 pip install awscli --upgrade --user
 ```
 
 After you install the AWS CLI, you may need to add the path to the executable file to your PATH variable. 
 
-```js
+```
 vim ~/.zshrc
 ```
 
 Add the line `export PATH=~/.local/bin:$PATH` in `.zshrc` and source the file.
 
-```js
+```
 source ~/.zshrc
 aws --version
 ```
 
 #### Step 3: Install `kops` (Kubernetes Operations):
 
-```js
+```
 brew update && brew install kops
 ```
 
 #### Step 4: Install `kubectl` (CLI tool to manage and operate Kubernetes clusters):
 
-```js
+```
 brew install kubernetes-cli
 ```
 
@@ -136,31 +136,31 @@ You should record the SecretAccessKey and AccessKeyID in the returned JSON outpu
 aws configure           # Use your new access and secret key here
 ```
 
-```js
+```
 vim ~/.zshrc
 ```
 
 Add the following two lines in `.zshrc` and source the file because "aws configure" does not export these vars for kops to use, we export them now:
 
-```js
+```
 export AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id)
 export AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key)
 ```
 
-```js
+```
 source ~/.zshrc
 aws --version
 ```
 
 You can see a list of all your IAM users here:
 
-```js
+```
 aws iam list-users
 ```
 
 You can also check the config as well:
 
-```js
+```
 cat ~/.aws/credentials
 cat ~/.aws/config
 ```
@@ -201,3 +201,111 @@ This is a critical component of setting up clusters. If you are experiencing pro
 
 **Please DO NOT MOVE ON until you have validated your NS records!**
 
+#### Step 7: Cluster State storage:
+
+In order to store the state of your cluster, and the representation of your cluster, we need to create a dedicated S3 bucket for `kops` to use. This bucket will become the source of truth for our cluster configuration.
+
+We recommend keeping the creation of this bucket confined to us-east-1, otherwise more work will be required.
+
+```
+aws s3api create-bucket \
+    --bucket prefix-rajughosh-me-state-store \
+    --region us-east-1
+```
+
+We **STRONGLY** recommend versioning your S3 bucket in case you ever need to revert or recover a previous state store.
+
+```
+aws s3api put-bucket-versioning --bucket prefix-rajughosh-me-state-store  --versioning-configuration Status=Enabled
+```
+
+#### Step 8: Prepare local environment:
+
+We're ready to start creating our first cluster! Let's first set up a few environment variables to make this process easier.
+
+Please open `~/.zshrc` file for editing using vim and add the following two lines and save: 
+
+```
+export NAME=myfirstcluster.rajughosh.me
+export KOPS_STATE_STORE=s3://prefix-rajughosh-me-state-store
+```
+
+```
+source ~/.zshrc
+```
+
+#### Step 9: Describe your Availability Zones:
+
+We will need to note which availability zones are available to us. In this example we will be deploying our cluster to the `us-east-2` region.
+
+```
+aws ec2 describe-availability-zones --region us-east-2
+```
+
+#### Step 10: Generated SSH key pair:
+
+```
+mkdir kops
+cd kops
+ssh-keygen
+```
+
+#### Step 11: Create cluster configuration:
+
+The below command will generate a cluster configuration, but not start building it.
+
+```
+kops create cluster \
+    --zones us-east-2a \
+    ${NAME}
+```
+
+All instances created by `kops` will be built within ASG (Auto Scaling Groups), which means each instance will be automatically monitored and rebuilt by AWS if it suffers any failure.
+
+##### Customize Cluster Configuration:
+
+Now we have a cluster configuration, we can look at every aspect that defines our cluster by editing the description.
+
+```
+kops edit cluster ${NAME}
+```
+
+The configuration is loaded from the S3 bucket we created earlier, and automatically updated when we save and exit the editor.
+
+#### Step 12: Build the Cluster:
+
+Now we take the final step of actually building the cluster. This'll take a while.
+
+```
+kops update cluster ${NAME} --yes
+```
+
+#### Step 13: Build the Cluster:
+
+Remember when you installed `kubectl` earlier? The configuration for your cluster was automatically generated and written to `~/.kube/config` for you!
+
+A simple Kubernetes API call can be used to check if the API is online and listening. Let's use kubectl to check the nodes.
+
+```
+kubectl get nodes
+```
+
+Also `kops` ships with a handy validation tool that can be ran to ensure your cluster is working as expected.
+
+```
+kops validate cluster
+```
+
+You can look at all the system components with the following command.
+
+```
+kubectl -n kube-system get po
+```
+
+### Delete the Cluster:
+
+Running a Kubernetes cluster within AWS obviously costs money, and so you may want to delete your cluster if you are finished running experiments. Note that this command is very destructive, and will delete your cluster and everything contained within it!
+
+```
+kops delete cluster --name ${NAME} --yes
+```
