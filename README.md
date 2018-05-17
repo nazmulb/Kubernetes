@@ -416,7 +416,7 @@ When you save it then it will automatically apply the changes.
 kubectl get pods -l app=nginx
 ```
 
-#### Use Port Forwarding to Access Applications in a Cluster:
+#### Use port forwarding to access our applications:
 
 ```
 kubectl port-forward nginx-deployment-6c54bd5869-wvz8r 8080:80
