@@ -360,6 +360,12 @@ kubectl apply -f deployment.yaml
 kubectl describe deployment nginx-deployment
 ```
 
+We can also see the list of all deployments:
+
+```
+kubectl get deployments
+```
+
 ##### Step 4: List the pods created by the deployment:
 
 ```
@@ -410,6 +416,12 @@ spec:
 
 When you save it then it will automatically apply the changes.
 
+Another way to do an update of the image for a deployment is to edit to the deployment via the CLI:
+
+```
+kubectl scale deployment nginx-deployment --replicas=1
+```
+
 ##### Step 2: List the pods created by the deployment:
 
 ```
@@ -429,7 +441,7 @@ curl localhost:8080
 If you want to update the nginx `index.html` file then open the container in interactive mode:
 
 ```
-kubectl exec -it nginx-deployment-6c54bd5869-wvz8r bash
+kubectl exec -it nginx-deployment-6c54bd5869-wvz8r -c nginx bash
 ```
 
 ### Delete the Cluster:
