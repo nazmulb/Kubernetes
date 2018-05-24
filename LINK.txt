@@ -6,3 +6,6 @@ https://github.com/kubernetes/kubernetes/blob/v1.0.0/docs/getting-started-guides
 https://github.com/kubernetes/kops/blob/master/docs/aws.md
 https://kubernetes.io/docs/tasks/run-application/run-stateless-application-deployment/
 https://docs.google.com/document/d/15zfFzDiuD-PotyrlFf1MK7MfqAvALSCKVQ87epdoZ_0/edit#
+https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+https://www.mirantis.com/blog/introduction-to-yaml-creating-a-kubernetes-deployment/
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/
