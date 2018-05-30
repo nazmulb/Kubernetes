@@ -374,6 +374,10 @@ kube-proxy-ip-172-20-63-67.us-east-2.compute.internal                1/1       R
 kube-scheduler-ip-172-20-53-65.us-east-2.compute.internal            1/1       Running   0          3m
 ```
 
+**You see this video:**
+
+[![Create aws cluster using K8s](https://raw.githubusercontent.com/nazmulb/Kubernetes/master/images/video.png)](https://youtu.be/0p19p-4US44)
+
 ### Run a Stateless Application Using a Deployment:
 
 #### Objectives:
@@ -551,6 +555,3 @@ kops delete cluster --name ${NAME} --yes
 ```
 
 You can learn more from <a href="https://kubernetes.io/docs/reference/kubectl/cheatsheet/">kubectl Cheat Sheet</a> and <a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands">kubectl Commands</a>.
-
-
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=XHECZDy_ctg)
