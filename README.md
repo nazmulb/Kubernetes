@@ -179,6 +179,8 @@ Now you will get 4 NS (Name Servers) record for your domain (`rajughosh.me`).
 
 Please copy this NS record and set it to your domain.
 
+<img alt="Set NS record to domain" src="https://raw.githubusercontent.com/nazmulb/Kubernetes/master/images/domain-ns-record.png" width="750px" />
+
 #### Step 6: Testing your DNS setup:
 
 You should now able to dig your domain and see the AWS Name Servers on the other end.
@@ -242,6 +244,33 @@ We will need to note which availability zones are available to us. In this examp
 aws ec2 describe-availability-zones --region us-east-2
 ```
 
+The output is similar to this:
+
+```js
+{
+    "AvailabilityZones": [
+        {
+            "State": "available",
+            "Messages": [],
+            "RegionName": "us-east-2",
+            "ZoneName": "us-east-2a"
+        },
+        {
+            "State": "available",
+            "Messages": [],
+            "RegionName": "us-east-2",
+            "ZoneName": "us-east-2b"
+        },
+        {
+            "State": "available",
+            "Messages": [],
+            "RegionName": "us-east-2",
+            "ZoneName": "us-east-2c"
+        }
+    ]
+}
+```
+
 #### Step 10: Generated SSH key pair:
 
 ```
@@ -290,16 +319,59 @@ A simple Kubernetes API call can be used to check if the API is online and liste
 kubectl get nodes
 ```
 
+The output is similar to this:
+
+```
+NAME                                          STATUS     ROLES     AGE       VERSION
+ip-172-20-53-65.us-east-2.compute.internal    Ready      master    1m        v1.9.3
+ip-172-20-58-211.us-east-2.compute.internal   Ready	     node      13s       v1.9.3
+ip-172-20-63-67.us-east-2.compute.internal    Ready      node      25s       v1.9.3
+```
+
 Also `kops` ships with a handy validation tool that can be ran to ensure your cluster is working as expected.
 
 ```
 kops validate cluster
 ```
 
+The output is similar to this:
+
+```
+Validating cluster myfirstcluster.rajughosh.me
+
+INSTANCE GROUPS
+NAME                    ROLE    MACHINETYPE     MIN     MAX     SUBNETS
+master-us-east-2a       Master  c4.large        1       1       us-east-2a
+nodes                   Node    t2.medium       2       2       us-east-2a
+
+NODE STATUS
+NAME                                            ROLE    READY
+ip-172-20-53-65.us-east-2.compute.internal      master  True
+ip-172-20-58-211.us-east-2.compute.internal     node    True
+ip-172-20-63-67.us-east-2.compute.internal      node    True
+```
+
 You can look at all the system components with the following command.
 
 ```
 kubectl -n kube-system get po
+```
+The output is similar to this:
+
+```
+NAME                                                                 READY     STATUS    RESTARTS   AGE
+dns-controller-754f45cb86-pgblh                                      1/1       Running   0          3m
+etcd-server-events-ip-172-20-53-65.us-east-2.compute.internal        1/1       Running   0          3m
+etcd-server-ip-172-20-53-65.us-east-2.compute.internal               1/1       Running   0          3m
+kube-apiserver-ip-172-20-53-65.us-east-2.compute.internal            1/1       Running   0          2m
+kube-controller-manager-ip-172-20-53-65.us-east-2.compute.internal   1/1       Running   0          3m
+kube-dns-7785f4d7dc-bvcg9                                            3/3       Running   0          3m
+kube-dns-7785f4d7dc-zcz6b                                            3/3       Running   0          1m
+kube-dns-autoscaler-787d59df8f-bntg7                                 1/1       Running   0          3m
+kube-proxy-ip-172-20-53-65.us-east-2.compute.internal                1/1       Running   0          3m
+kube-proxy-ip-172-20-58-211.us-east-2.compute.internal               1/1       Running   0          1m
+kube-proxy-ip-172-20-63-67.us-east-2.compute.internal                1/1       Running   0          1m
+kube-scheduler-ip-172-20-53-65.us-east-2.compute.internal            1/1       Running   0          3m
 ```
 
 ### Run a Stateless Application Using a Deployment:
