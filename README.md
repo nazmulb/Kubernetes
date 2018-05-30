@@ -551,3 +551,5 @@ kops delete cluster --name ${NAME} --yes
 ```
 
 You can learn more from <a href="https://kubernetes.io/docs/reference/kubectl/cheatsheet/">kubectl Cheat Sheet</a> and <a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands">kubectl Commands</a>.
+
+<iframe width="854" height="480" src="https://www.youtube.com/embed/XHECZDy_ctg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
