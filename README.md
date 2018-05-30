@@ -348,6 +348,24 @@ spec:
         - containerPort: 80
 ```
 
+
+In this example:
+
+- A Deployment named `nginx-deployment`, indicated by the `metadata: name` field.
+- The Deployment creates two replicated Pods, indicated by the `replicas` field.
+- The `selector` field defines how the Deployment finds which Pods to manage. In this case, we simply select on one label defined in the Pod template (`app: nginx`). However, more sophisticated selection rules are possible, as long as the Pod template itself satisfies the rule.
+- The Pod template’s specification, or `template: spec` field, indicates that the Pods run one container, `nginx`, which runs the `nginx` Docker Hub image at version `1.7.9`.
+- The Deployment opens port `80` for use by the Pods.
+
+The template field contains the following instructions:
+
+- The Pods are labeled `app: nginx`
+- Create one container and name it `nginx`.
+- Run the `nginx` image at version `1.7.9`.
+- Open port `80` so that the container can send and accept traffic.
+
+You can read from <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">here</a>
+
 ##### Step 2: Apply the deployment YAML file:
 
 ```
@@ -459,3 +477,5 @@ When you are sure you want to delete your cluster, issue the delete command with
 ```
 kops delete cluster --name ${NAME} --yes
 ```
+
+You can learn more from <a href="https://kubernetes.io/docs/reference/kubectl/cheatsheet/">kubectl Cheat Sheet</a> and <a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands">kubectl Commands</a>.

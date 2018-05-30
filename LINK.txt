@@ -9,3 +9,4 @@ https://docs.google.com/document/d/15zfFzDiuD-PotyrlFf1MK7MfqAvALSCKVQ87epdoZ_0/
 https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 https://www.mirantis.com/blog/introduction-to-yaml-creating-a-kubernetes-deployment/
 https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+https://docs.helm.sh/using_helm/#quickstart-guide
