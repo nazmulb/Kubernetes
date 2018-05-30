@@ -324,7 +324,7 @@ The output is similar to this:
 ```
 NAME                                          STATUS     ROLES     AGE       VERSION
 ip-172-20-53-65.us-east-2.compute.internal    Ready      master    1m        v1.9.3
-ip-172-20-58-211.us-east-2.compute.internal   Ready	     node      13s       v1.9.3
+ip-172-20-58-211.us-east-2.compute.internal   Ready      node      13s       v1.9.3
 ip-172-20-63-67.us-east-2.compute.internal    Ready      node      25s       v1.9.3
 ```
 
