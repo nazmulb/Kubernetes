@@ -454,16 +454,69 @@ kubectl apply -f deployment.yaml
 kubectl describe deployment nginx-deployment
 ```
 
+The output is similar to this:
+
+```
+Name:                   nginx-deployment
+Namespace:              default
+CreationTimestamp:      Thu, 31 May 2018 11:59:10 +0600
+Labels:                 app=nginx
+Annotations:            deployment.kubernetes.io/revision=1
+                        kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"nginx-deployment","namespace":"default"},"spec":{"replicas":2,"selecto...
+Selector:               app=nginx
+Replicas:               2 desired | 2 updated | 2 total | 2 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=nginx
+  Containers:
+   nginx:
+    Image:        nginx:1.7.9
+    Port:         80/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   nginx-deployment-6c54bd5869 (2/2 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  1m    deployment-controller  Scaled up replica set nginx-deployment-6c54bd5869 to 2
+```
+
+
 We can also see the list of all deployments:
 
 ```
 kubectl get deployments
 ```
 
+The output is similar to this:
+
+```
+NAME               DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+nginx-deployment   2         2         2            2           4m
+```
+
 ##### Step 4: List the pods created by the deployment:
 
 ```
 kubectl get pods -l app=nginx
+```
+
+The output is similar to this:
+
+```
+NAME                                READY     STATUS    RESTARTS   AGE
+nginx-deployment-6c54bd5869-6nt5j   1/1       Running   0          5m
+nginx-deployment-6c54bd5869-pzqnk   1/1       Running   0          5m
 ```
 
 ##### Step 4: Display information about pod:
@@ -522,10 +575,17 @@ kubectl scale deployment nginx-deployment --replicas=1
 kubectl get pods -l app=nginx
 ```
 
+The output is similar to this:
+
+```
+NAME                                READY     STATUS    RESTARTS   AGE
+nginx-deployment-6c54bd5869-pzqnk   1/1       Running   0          9m
+```
+
 #### Use port forwarding to access our applications:
 
 ```
-kubectl port-forward nginx-deployment-6c54bd5869-wvz8r 8080:80
+kubectl port-forward nginx-deployment-6c54bd5869-pzqnk 8080:80
 ```
 
 ```
@@ -535,7 +595,7 @@ curl localhost:8080
 If you want to update the nginx `index.html` file then open the container in interactive mode:
 
 ```
-kubectl exec -it nginx-deployment-6c54bd5869-wvz8r -c nginx bash
+kubectl exec -it nginx-deployment-6c54bd5869-pzqnk -c nginx bash
 ```
 
 ### Delete the Cluster:
