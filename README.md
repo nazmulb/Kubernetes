@@ -522,7 +522,7 @@ nginx-deployment-6c54bd5869-pzqnk   1/1       Running   0          5m
 ##### Step 4: Display information about pod:
 
 ```
-kubectl describe pod
+kubectl describe pod <pod-name>
 ```
 
 where `<pod-name>` is the name of one of your pods.
